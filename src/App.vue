@@ -1,28 +1,82 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="https://vuejs.org/images/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <kendo-menu :items="items" @select="onSelect" />
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { Menu } from '@progress/kendo-vue-layout';
+import '@progress/kendo-theme-bootstrap/dist/all.css';
+import 'bootstrap/scss/bootstrap.scss';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  components: { 'kendo-menu': Menu },
+  mounted() {
+    this.$router.push(this.items[0].data);
+  },
+  data() {
+    return {
+      items: [
+        {
+          text: 'Home',
+          data: {
+            path: '/',
+          },
+        },
+        {
+          text: 'Chứng từ',
+          data: {
+            path: '/about',
+          },
+          items: [
+            {
+              text: 'Chứng từ & TT cá nhân',
+              data: {
+                path: '/about/team',
+              },
+              items: [
+                {
+                  text: 'Nhập số liệu',
+                  data: {
+                    path: '/about/team',
+                  },
+                  items: [
+                    {
+                      text: 'Nhập số liệu',
+                      data: {
+                        path: '/ctkt/ctkt',
+                      },
+                    },
+
+                    {
+                      text: 'Nhập số liệu lương',
+                      data: {
+                        path: '/ctkt/ctkt',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              text: 'Nhập số liệu',
+              data: {
+                path: '/ctkt/nsl',
+              },
+            },
+          ],
+        },
+      ],
+    };
+  },
+  methods: {
+    onSelect(e) {
+      this.$router.push(e.item.data);
+    },
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
